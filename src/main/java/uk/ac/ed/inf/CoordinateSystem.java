@@ -19,7 +19,31 @@ public class CoordinateSystem implements LngLatHandling {
 
     @Override
     public boolean isInRegion(LngLat position, NamedRegion region) {
-        return false;
+        int crossingCounter = 0;
+        LngLat v1;
+        LngLat v2;
+        for (int i = 0; i < region.vertices().length; i++ ){
+            v1 = region.vertices()[i];
+            if (i == region.vertices().length - 1){
+                v2 = region.vertices()[0];
+            }
+            else{
+                v2 = region.vertices()[i+1];
+            }
+
+            if (isCloseTo(position, v1) || isCloseTo(position, v2)){
+                return true;
+            }
+            if ( ((position.lat()<v1.lat()) != (position.lat()<v2.lat()))){
+                if(position.lng() == v1.lng() + ((position.lat()-v1.lat())/(v2.lat()- v1.lat()))*(v2.lng()- v1.lng())){
+                    return true;
+                }
+                if (position.lng() < v1.lng() + ((position.lat()-v1.lat())/(v2.lat()- v1.lat()))*(v2.lng()- v1.lng())){
+                    crossingCounter += 1;
+                }
+            }
+        }
+        return crossingCounter % 2 == 1;
     }
 
     @Override
