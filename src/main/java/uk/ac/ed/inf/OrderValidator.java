@@ -13,14 +13,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class OrderValidator implements OrderValidation {
+
+    /**
+     * Update the OrderValidationCode and OrderStatus of an order.
+     * @param orderToValidate the order to be validated
+     * @param definedRestaurants all the restaurants retrieved from server
+     * @return the updated order
+     */
     @Override
     public Order validateOrder(Order orderToValidate, Restaurant[] definedRestaurants) {
         orderToValidate.setOrderValidationCode(creditCardInfoChecker(orderToValidate.getCreditCardInformation(),
-                orderToValidate.getOrderValidationCode()));
+                orderToValidate.getOrderValidationCode())); //validate the credit card information
 
         orderToValidate.setOrderValidationCode(pizzaChecker(orderToValidate.getPizzasInOrder(), definedRestaurants,
                 orderToValidate.getOrderDate(), orderToValidate.getOrderValidationCode(), orderToValidate.getPriceTotalInPence()));
-
+                //validate the pizzas and restaurants information
         if (orderToValidate.getOrderValidationCode() == OrderValidationCode.UNDEFINED){
             orderToValidate.setOrderValidationCode(OrderValidationCode.NO_ERROR);
             orderToValidate.setOrderStatus(OrderStatus.VALID_BUT_NOT_DELIVERED);
@@ -30,12 +37,34 @@ public class OrderValidator implements OrderValidation {
         return orderToValidate;
     }
 
+    /**
+     * Validate all the orders in the input array and return a list of valid orders of the day.
+     * @param orders all orders from a certain day
+     * @param restaurants the list of all pizza providers
+     * @return all valid orders in an Arraylist
+     */
+    public ArrayList<Order> filterAllValidOn(Order[] orders, Restaurant[] restaurants){
+        ArrayList<Order> validOrders = new ArrayList<>();
+        for (Order order : orders) {
+            if (validateOrder(order, restaurants).getOrderStatus() == OrderStatus.VALID_BUT_NOT_DELIVERED){ //update the status of orders
+                    validOrders.add(order);
+            }
+        }
+        return validOrders;
+    }
+
+    /**
+     * Check if the credit card information given is correct.
+     * @param card the credit card information
+     * @param code the original OrderValidationCode
+     * @return the corresponding error code related to the card
+     */
     public OrderValidationCode creditCardInfoChecker(CreditCardInformation card, OrderValidationCode code){
         if ( !(card.getCreditCardNumber().matches("[0-9]+") && (card.getCreditCardNumber().length() == 16)) ){
-            return OrderValidationCode.CARD_NUMBER_INVALID;
+            return OrderValidationCode.CARD_NUMBER_INVALID; //check if the card number consists of 16 numbers exclusively
         }
         if ( !(card.getCvv().matches("[0-9]+") && (card.getCvv().length() == 3)) ){
-            return OrderValidationCode.CVV_INVALID;
+            return OrderValidationCode.CVV_INVALID; // check if the cvv code consists of 3 numbers exclusively
         }
         int expMonth = Integer.parseInt(card.getCreditCardExpiry().substring(0,2));
         int expYear = 2000+Integer.parseInt(card.getCreditCardExpiry().substring(3));
@@ -44,19 +73,28 @@ public class OrderValidator implements OrderValidation {
         int yearNow = localDate.getYear();
 
         if (expYear < yearNow){
-            return OrderValidationCode.EXPIRY_DATE_INVALID;
+            return OrderValidationCode.EXPIRY_DATE_INVALID; //year smaller
         }else if (expYear == yearNow) {
-            if (!(expMonth >= monthNow && expMonth <= 12)){
+            if (!(expMonth >= monthNow && expMonth <= 12)){// same year but month is either smaller than now or larger than 12(an illegal month)
                 return OrderValidationCode.EXPIRY_DATE_INVALID;
             }
         }else {
-            if (!(expMonth >= 1 && expMonth <= 12)){
+            if (!(expMonth >= 1 && expMonth <= 12)){// year larger but month is illegal(not bounded between 1 and 12)
                 return OrderValidationCode.EXPIRY_DATE_INVALID;
             }
         }
-        return code;
+        return code;  
     }
 
+    /**
+     * Check if the pizzas and restaurants information of an order have errors.
+     * @param pizzas the array of pizza from the order
+     * @param definedRestaurants all the restaurants retrieved from server
+     * @param orderDate the date the order is made
+     * @param code the original OrderValidationCode
+     * @param price the total price in pence listed in the order
+     * @return the corresponding error code related to pizzas or restaurants
+     */
     public OrderValidationCode pizzaChecker(Pizza[] pizzas, Restaurant[] definedRestaurants, LocalDate orderDate, OrderValidationCode code, int price){
         if (pizzas.length > 4){
             return OrderValidationCode.MAX_PIZZA_COUNT_EXCEEDED; //If more than 4 pizzas ordered return this error
@@ -64,25 +102,25 @@ public class OrderValidator implements OrderValidation {
         int actualTotalInPence = 0;
         ArrayList<Integer> restaurantNum = new ArrayList<>();
 
-        for (int i = 0; i < pizzas.length; i++){
+        for (int i = 0; i < pizzas.length; i++){ // loop through the pizzas ordered
             searchingLoop:
             for (int j = 0; j < definedRestaurants.length; j++){   // loop through all the restaurants
-                for (int k = 0; k < definedRestaurants[j].menu().length; k++){
-                    if (pizzas[i].name().equals(definedRestaurants[j].menu()[k].name())){
+                for (int k = 0; k < definedRestaurants[j].menu().length; k++){ // loop through all the pizzas on the menu of restaurant[j]
+                    if (pizzas[i].name().equals(definedRestaurants[j].menu()[k].name())){ // pizza[i] is found
                         restaurantNum.add(j);
-                        actualTotalInPence += definedRestaurants[j].menu()[k].priceInPence();
-                        break searchingLoop;
+                        actualTotalInPence += definedRestaurants[j].menu()[k].priceInPence();// add the actual price defined in menu
+                        break searchingLoop; // break out to search for the next pizza ordered
                     }
                 }
             }
-            if (restaurantNum.isEmpty() || ((i+1) != restaurantNum.size())){ // if one pizza is not found in any of the restaurant: undefined
+            if (restaurantNum.isEmpty() || ((i+1) != restaurantNum.size())){ // whenever there is a pizza is not found in any of the restaurant: pizza_undefined
                 return OrderValidationCode.PIZZA_NOT_DEFINED;
             }
-            if (restaurantNum.size()>1 && !restaurantNum.get(i-1).equals(restaurantNum.get(i))){
+            if (restaurantNum.size()>1 && !restaurantNum.get(i-1).equals(restaurantNum.get(i))){ // if two different restaurants appeared
                 return OrderValidationCode.PIZZA_FROM_MULTIPLE_RESTAURANTS;
             }
         }
-        if (price != actualTotalInPence){
+        if (price != actualTotalInPence + 100){ // actual total price does not equal to the listed price in order: total_incorrect
             return OrderValidationCode.TOTAL_INCORRECT;
         }
         if (!Arrays.stream(definedRestaurants[restaurantNum.get(0)].openingDays()).toList().contains(orderDate.getDayOfWeek())){

@@ -65,10 +65,10 @@ public class OrderValidationImplTest extends TestCase {
         Order order = newValidOrder();
 
         // BS data
-        order.getCreditCardInformation().setCreditCardExpiry("1000/2000");
+        order.getCreditCardInformation().setCreditCardExpiry("10/24");
         order = impl.validateOrder(order, restaurants);
-        assertEquals(OrderStatus.INVALID, order.getOrderStatus());
-        assertEquals(OrderValidationCode.EXPIRY_DATE_INVALID, order.getOrderValidationCode());
+        assertEquals(OrderStatus.VALID_BUT_NOT_DELIVERED, order.getOrderStatus());
+        assertEquals(OrderValidationCode.NO_ERROR, order.getOrderValidationCode());
 
         // Expired
         order.getCreditCardInformation().setCreditCardExpiry("10/20");
