@@ -1,6 +1,7 @@
 package uk.ac.ed.inf;
 
 import org.junit.Test;
+import uk.ac.ed.inf.ilp.constant.OrderValidationCode;
 import uk.ac.ed.inf.ilp.data.LngLat;
 
 import java.util.*;
@@ -59,8 +60,10 @@ public class DataStructureTest {
         }
     }
 
-    public static void check(int a){
-        a++;
+    @Test
+    public void testEnum(){
+        String codeString = OrderValidationCode.CARD_NUMBER_INVALID.name();
+        System.out.println(codeString);
     }
 
 

@@ -31,7 +31,7 @@ public class JsonControllerTest {
 
     @Test
     public void fromJsonAllOrders() throws IOException {
-        URL url = new URL("https://ilp-rest.azurewebsites.net/orders/2023-09-01");
+        URL url = new URL("https://ilp-rest.azurewebsites.net/orders/2023-09-10");
         Order[] orders = JsonController.fromJsonAllOrders(url);
         System.out.println(orders.length);
     }

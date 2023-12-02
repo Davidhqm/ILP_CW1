@@ -74,6 +74,10 @@ public class JsonController {
         return objectMapper.readValue(url, new TypeReference<>() {});
     }
 
+    /**
+     * Generate a JSONObject FeatureCollection with only one feature of type LineString.
+     * @return the JSONObject FeatureCollection
+     */
     public static JSONObject generateLineStringJson(){
         JSONObject featureCollection = new JSONObject();
         JSONArray features = new JSONArray();
@@ -95,6 +99,11 @@ public class JsonController {
 
     }
 
+    /**
+     * Add a list of nodes to the coordinates array of the LineString feature.
+     * @param lngLats an ArrayList containing the nodes defining a path
+     * @param featureCollection the JSONObject that contains the LineString feature
+     */
     public static void addNodes(ArrayList<LngLat> lngLats, JSONObject featureCollection){
         if (featureCollection.has("features")) {
             JSONArray features = (JSONArray) featureCollection.get("features");

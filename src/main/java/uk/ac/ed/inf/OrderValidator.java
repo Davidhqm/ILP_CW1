@@ -30,7 +30,7 @@ public class OrderValidator implements OrderValidation {
                 //validate the pizzas and restaurants information
         if (orderToValidate.getOrderValidationCode() == OrderValidationCode.UNDEFINED){
             orderToValidate.setOrderValidationCode(OrderValidationCode.NO_ERROR);
-            orderToValidate.setOrderStatus(OrderStatus.VALID_BUT_NOT_DELIVERED);
+            orderToValidate.setOrderStatus(OrderStatus.DELIVERED);
         }else{
             orderToValidate.setOrderStatus(OrderStatus.INVALID);
         }

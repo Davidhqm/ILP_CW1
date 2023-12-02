@@ -38,15 +38,30 @@ public class FlightPathTest {
         LngLat fromPeffer = new LngLat(-3.161159,55.928296);
         LngLat fromIKea = new LngLat(-3.171004,55.879750);
         LngLat fromRoyalObservatory = new LngLat(-3.1881, 55.9229);
-        ArrayList<LngLat> path1 = flightPath.searchAlgo(startFromWorldOfPizza, appletonTower, noFlyZones, central, true);
-        ArrayList<LngLat> path2 = flightPath.searchAlgo(path1.get(path1.size()-1), startFromSlice, noFlyZones, central, false);
-        ArrayList<LngLat> path3 = flightPath.searchAlgo(path2.get(path2.size()-1), appletonTower, noFlyZones, central, true);
+
+        ArrayList<LngLat> pathAppleToKings = flightPath.searchAlgo(appletonTower, testPointKings, noFlyZones, central, false);
+        JSONObject output1 = JsonController.generateLineStringJson();
+        JsonController.addNodes(pathAppleToKings, output1);
+        JsonController.convertToGeoJSON(output1, "testNewKings.geojson");
+
+        /*
+        ArrayList<LngLat> pathHalalToApple = flightPath.searchAlgo(startFromHalal, appletonTower, noFlyZones, central, true);
+        ArrayList<LngLat> pathAppleToWorld = flightPath.searchAlgo(pathHalalToApple.get(pathHalalToApple.size()-1), startFromWorldOfPizza, noFlyZones, central, false);
+        ArrayList<LngLat> pathWorldToApple = flightPath.searchAlgo(pathAppleToWorld.get(pathAppleToWorld.size()-1), appletonTower, noFlyZones, central, true);
+        ArrayList<LngLat> pathAppleToVegan = flightPath.searchAlgo(pathWorldToApple.get(pathWorldToApple.size()-1), startFromVegan, noFlyZones, central, false);
+        ArrayList<LngLat> pathVeganToApple = flightPath.searchAlgo(pathAppleToVegan.get(pathAppleToVegan.size()-1), appletonTower, noFlyZones, central, true);
         JSONObject outputFeatureCollection = JsonController.generateLineStringJson();
-        JsonController.addNodes(path1, outputFeatureCollection);
-        path2.remove(0);
-        JsonController.addNodes(path2, outputFeatureCollection);
-        path3.remove(0);
-        JsonController.convertToGeoJSON(outputFeatureCollection, "test2paths.geojson");
+        JsonController.addNodes(pathHalalToApple, outputFeatureCollection);
+        pathAppleToWorld.remove(0);
+        JsonController.addNodes(pathAppleToWorld, outputFeatureCollection);
+        pathWorldToApple.remove(0);
+        JsonController.addNodes(pathWorldToApple, outputFeatureCollection);
+        pathAppleToVegan.remove(0);
+        JsonController.addNodes(pathAppleToVegan, outputFeatureCollection);
+        pathVeganToApple.remove(0);
+        JsonController.addNodes(pathVeganToApple, outputFeatureCollection);
+        JsonController.convertToGeoJSON(outputFeatureCollection, "testNewPaths2.geojson");
+         */
 
     }
 
