@@ -1,0 +1,22 @@
+-------------------------------------------------------------------------------
+Test set: uk.ac.ed.inf.JsonControllerTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.079 s <<< FAILURE! - in uk.ac.ed.inf.JsonControllerTest
+fromJsonAll(uk.ac.ed.inf.JsonControllerTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.NoClassDefFoundError: uk/ac/ed/inf/ilp/data/NamedRegion
+	at uk.ac.ed.inf.JsonControllerTest.fromJsonAll(JsonControllerTest.java:28)
+Caused by: java.lang.ClassNotFoundException: uk.ac.ed.inf.ilp.data.NamedRegion
+	at uk.ac.ed.inf.JsonControllerTest.fromJsonAll(JsonControllerTest.java:28)
+
+fromJsonAllOrders(uk.ac.ed.inf.JsonControllerTest)  Time elapsed: 0.074 s  <<< ERROR!
+java.lang.TypeNotPresentException: Type uk.ac.ed.inf.ilp.data.Order not present
+	at uk.ac.ed.inf.JsonControllerTest.fromJsonAllOrders(JsonControllerTest.java:35)
+Caused by: java.lang.ClassNotFoundException: uk.ac.ed.inf.ilp.data.Order
+	at uk.ac.ed.inf.JsonControllerTest.fromJsonAllOrders(JsonControllerTest.java:35)
+
+fromJsonAllRegions(uk.ac.ed.inf.JsonControllerTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.TypeNotPresentException: Type uk.ac.ed.inf.ilp.data.NamedRegion not present
+	at uk.ac.ed.inf.JsonControllerTest.fromJsonAllRegions(JsonControllerTest.java:42)
+Caused by: java.lang.ClassNotFoundException: uk.ac.ed.inf.ilp.data.NamedRegion
+	at uk.ac.ed.inf.JsonControllerTest.fromJsonAllRegions(JsonControllerTest.java:42)
+

@@ -86,4 +86,28 @@ public class CoordinateSystem implements LngLatHandling {
             return new LngLat(startPosition.lng()+lngChange, startPosition.lat()+latChange);
         }
     }
+
+    /**
+     * Get one of the 16 major compass directions as an angle between two points in reference to the positive x direction.
+     * @param startPosition the starting coordinate of before movement
+     * @param endPosition the end coordinate of after a movement
+     * @return the angle representing the direction of the movement
+     */
+    public double getAngle(LngLat startPosition, LngLat endPosition){
+
+        if(startPosition == endPosition){
+            return 999;
+        }
+        double deltaX = endPosition.lng() - startPosition.lng();
+        double deltaY = endPosition.lat() - startPosition.lat();
+        double angleRadians = Math.atan2(deltaY, deltaX);
+        double angleDegrees = Math.toDegrees(angleRadians);
+
+        // Convert negative angles to positive
+        if (angleDegrees < 0) {
+            angleDegrees += 360;
+        }
+        // Calculate the closest compass direction angle
+        return Math.round(angleDegrees / 22.5) * 22.5;
+    }
 }

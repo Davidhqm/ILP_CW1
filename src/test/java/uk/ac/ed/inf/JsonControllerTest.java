@@ -43,9 +43,5 @@ public class JsonControllerTest {
         System.out.println(noFlyZones[0].name());
     }
 
-    @Test
-    public void testFeatureCollection(){
-        JsonController.convertToGeoJSON(JsonController.generateLineStringJson(), "test.geojson");
-    }
 
 }

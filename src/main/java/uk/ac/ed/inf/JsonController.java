@@ -12,10 +12,12 @@ import uk.ac.ed.inf.ilp.data.NamedRegion;
 import uk.ac.ed.inf.ilp.data.Order;
 import uk.ac.ed.inf.ilp.data.Restaurant;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class JsonController {
@@ -104,7 +106,7 @@ public class JsonController {
      * @param lngLats an ArrayList containing the nodes defining a path
      * @param featureCollection the JSONObject that contains the LineString feature
      */
-    public static void addNodes(ArrayList<LngLat> lngLats, JSONObject featureCollection){
+    public static void addNodes(List<LngLat> lngLats, JSONObject featureCollection){
         if (featureCollection.has("features")) {
             JSONArray features = (JSONArray) featureCollection.get("features");
             if (!features.isEmpty()) {
@@ -127,12 +129,76 @@ public class JsonController {
         }
     }
 
-    public static void convertToGeoJSON(JSONObject object, String outputFilePath) {
+    /**
+     * Write a featureCollection with one feature of LineString type to an output file.
+     * @param object a JSONObject featureCollection
+     * @param fileName the name of the output file
+     */
+    public static void convertToGeoJSON(JSONObject object, String fileName) {
 
-        // Write to file
-        try (FileWriter file = new FileWriter(outputFilePath)) {
-            file.write(object.toString());
-            System.out.println("GeoJSON written to: " + outputFilePath);
+        String filePath = "resultfiles/" + fileName;
+        File directory = new File("resultfiles");
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
+            // Write the JSON content to the file
+            fileWriter.write(object.toString()); // Use 2-space indentation for better readability
+            System.out.println("GeoJSON written to: " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Write a list of DroneMovement records to an output file containing an array of JSON records.
+     * @param records a list of DroneMovement records
+     * @param fileName the name of the output file
+     */
+    public static void writeToJsonFile(ArrayList<DroneMovement> records, String fileName) {
+
+        try {
+            // Convert records to JSON
+            String json = objectMapper.writeValueAsString(records);
+
+            // Specify the file path
+            String filePath = "resultfiles/" + fileName;
+
+            // Create the "resultfiles" directory if it doesn't exist
+            File directory = new File("resultfiles");
+            if (!directory.exists()) {
+                directory.mkdir();
+            }
+
+            // Write JSON to file
+            objectMapper.writeValue(new File(filePath), records);
+            System.out.println("Records written to: " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Write a list of OrderOutline records to an output file containing an array of JSON records.
+     * @param orderOutlines a list of OrderOutline records
+     * @param fileName the name of the output file
+     */
+    public static void writeToJsonOrderOutline(ArrayList<OrderOutline> orderOutlines, String fileName) {
+
+        try {
+            // Specify the file path
+            String filePath = "resultfiles/" + fileName;
+
+            // Create the "resultfiles" directory if it doesn't exist
+            File directory = new File("resultfiles");
+            if (!directory.exists()) {
+                directory.mkdir();
+            }
+
+            // Write JSON to file
+            objectMapper.writeValue(new File(filePath), orderOutlines);
+            System.out.println("Records written to: " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
         }

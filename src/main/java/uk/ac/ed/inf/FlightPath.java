@@ -35,9 +35,7 @@ public class FlightPath {
      */
     private HashMap<LngLat, WeightedLngLat> toCoLngLat;
 
-    public FlightPath(){
-
-    }
+    public FlightPath(){}
 
     /**
      * This is the pathfinding algorithm of the drone that models after the A* algorithm.
@@ -55,7 +53,7 @@ public class FlightPath {
      * @param isDelivery a boolean type determinant to check if the drone is to pick up pizzas or to deliver pizzas
      * @return an ArrayList of LngLat coordinates in order to link the path
      */
-    public ArrayList<LngLat> searchAlgo(LngLat start, LngLat goal, NamedRegion[] noFlyZones,NamedRegion centralArea, Boolean isDelivery) {
+    public ArrayList<LngLat> searchAlgo(LngLat start, LngLat goal, NamedRegion[] noFlyZones, NamedRegion centralArea, Boolean isDelivery) {
         //initialise the empty maps and queues
         this.frontier = new PriorityQueue<>();
         this.leadTo = new HashMap<>();
@@ -69,10 +67,9 @@ public class FlightPath {
         this.leadTo.put(start, null); // no previous node before the start point
         this.costSoFar.put(start, (double) 0); // the cost to reach start is 0, the G value is 0
         ArrayList<LngLat> path = new ArrayList<>(); // the output ArrayList that stores the nodes from start to goal in order
-
         double newCost; // the G value(the cost to reach the current node) of a node
-        double priority;// the F score which is G + H of a node
         LngLat currentNode;
+
         while (!frontier.isEmpty()) {
             currentNode = frontier.remove().getLngLat(); // get the one with the lowestCost in queue currently
 
@@ -110,7 +107,7 @@ public class FlightPath {
      * @param neighbour the neighbour node to be updated
      */
     private void updateNeighbourPath(LngLat goal, double newCost, LngLat currentNode, LngLat neighbour) {
-        double priority;
+        double priority; // the F score which is G + H of a node
         if (!costSoFar.containsKey(neighbour)) { // if the neighbour has not been searched yet
             this.costSoFar.put(neighbour, newCost); // put the neighbour and its G value to the HashMap
             priority = newCost + coordinateHandler.distanceTo(neighbour, goal); // calculate its F value
@@ -136,7 +133,7 @@ public class FlightPath {
      * @param noFlyZones an array of noFlyZones retrieved from server
      * @return a list of valid neighbouring points
      */
-    public ArrayList<LngLat> neighboursOf(LngLat node, NamedRegion[] noFlyZones){
+    private ArrayList<LngLat> neighboursOf(LngLat node, NamedRegion[] noFlyZones){
         ArrayList<LngLat> output = new ArrayList<>();
         LngLat nextTestNode;
         int counter;

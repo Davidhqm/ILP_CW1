@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: uk.ac.ed.inf.CoordinateSystemTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0 s <<< FAILURE! - in uk.ac.ed.inf.CoordinateSystemTest
+testGetAngle(uk.ac.ed.inf.CoordinateSystemTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.NoClassDefFoundError: uk/ac/ed/inf/ilp/interfaces/LngLatHandling
+	at uk.ac.ed.inf.CoordinateSystemTest.testGetAngle(CoordinateSystemTest.java:12)
+Caused by: java.lang.ClassNotFoundException: uk.ac.ed.inf.ilp.interfaces.LngLatHandling
+	at uk.ac.ed.inf.CoordinateSystemTest.testGetAngle(CoordinateSystemTest.java:12)
+

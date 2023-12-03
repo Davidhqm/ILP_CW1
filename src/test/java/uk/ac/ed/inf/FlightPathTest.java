@@ -39,12 +39,6 @@ public class FlightPathTest {
         LngLat fromIKea = new LngLat(-3.171004,55.879750);
         LngLat fromRoyalObservatory = new LngLat(-3.1881, 55.9229);
 
-        ArrayList<LngLat> pathAppleToKings = flightPath.searchAlgo(appletonTower, testPointKings, noFlyZones, central, false);
-        JSONObject output1 = JsonController.generateLineStringJson();
-        JsonController.addNodes(pathAppleToKings, output1);
-        JsonController.convertToGeoJSON(output1, "testNewKings.geojson");
-
-        /*
         ArrayList<LngLat> pathHalalToApple = flightPath.searchAlgo(startFromHalal, appletonTower, noFlyZones, central, true);
         ArrayList<LngLat> pathAppleToWorld = flightPath.searchAlgo(pathHalalToApple.get(pathHalalToApple.size()-1), startFromWorldOfPizza, noFlyZones, central, false);
         ArrayList<LngLat> pathWorldToApple = flightPath.searchAlgo(pathAppleToWorld.get(pathAppleToWorld.size()-1), appletonTower, noFlyZones, central, true);
@@ -61,7 +55,7 @@ public class FlightPathTest {
         pathVeganToApple.remove(0);
         JsonController.addNodes(pathVeganToApple, outputFeatureCollection);
         JsonController.convertToGeoJSON(outputFeatureCollection, "testNewPaths2.geojson");
-         */
+
 
     }
 

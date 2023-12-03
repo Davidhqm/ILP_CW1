@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: uk.ac.ed.inf.FlightPathTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0 s <<< FAILURE! - in uk.ac.ed.inf.FlightPathTest
+deliveryTest(uk.ac.ed.inf.FlightPathTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.NoClassDefFoundError: uk/ac/ed/inf/ilp/interfaces/LngLatHandling
+	at uk.ac.ed.inf.FlightPathTest.<init>(FlightPathTest.java:17)
+Caused by: java.lang.ClassNotFoundException: uk.ac.ed.inf.ilp.interfaces.LngLatHandling
+	at uk.ac.ed.inf.FlightPathTest.<init>(FlightPathTest.java:17)
+
+deliverDay(uk.ac.ed.inf.FlightPathTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.NoClassDefFoundError: uk/ac/ed/inf/ilp/interfaces/LngLatHandling
+	at uk.ac.ed.inf.FlightPathTest.<init>(FlightPathTest.java:17)
+Caused by: java.lang.ClassNotFoundException: uk.ac.ed.inf.ilp.interfaces.LngLatHandling
+	at uk.ac.ed.inf.FlightPathTest.<init>(FlightPathTest.java:17)
+

@@ -29,10 +29,28 @@ public class OrderValidatorTest {
         URL url1 = new URL("https://ilp-rest.azurewebsites.net/restaurants");
         Order[] orders = JsonController.fromJsonAllOrders(url);
         Restaurant[] restaurants = JsonController.fromJsonAllRestaurants(url1);
-        ArrayList<Order> test = host.filterAllValidOn(orders, restaurants);
-        for(Order order : orders){
-            System.out.println(order.getOrderValidationCode());
+        ArrayList<OrderOutline> orderOutlines = new ArrayList<>();
+        ArrayList<Order> test = host.filterAllValidOn(orders, restaurants, orderOutlines);
+        System.out.println(test.size());
+        for(OrderOutline orderOutline : orderOutlines){
+            System.out.println(orderOutline.orderNo());
         }
+    }
+
+    @Test
+    public void getRestaurantTest() throws IOException {
+        URL urlOrders = new URL("https://ilp-rest.azurewebsites.net/orders/2023-09-02");
+        URL urlRestaurants = new URL("https://ilp-rest.azurewebsites.net/restaurants");
+        Order[] orders = JsonController.fromJsonAllOrders(urlOrders);
+        Restaurant[] restaurants = JsonController.fromJsonAllRestaurants(urlRestaurants);
+        ArrayList<OrderOutline> orderOutlines = new ArrayList<>();
+        ArrayList<Order> allValidOrders = host.filterAllValidOn(orders, restaurants, orderOutlines);
+        System.out.println(allValidOrders.size());
+
+
+        Restaurant targetRestaurant = host.getOrderRestaurant(allValidOrders.get(4), restaurants);
+        System.out.println(allValidOrders.get(4).getOrderNo());
+        System.out.println(targetRestaurant.name());
 
     }
 

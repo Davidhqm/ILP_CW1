@@ -14,6 +14,8 @@ import java.util.Arrays;
 
 public class OrderValidator implements OrderValidation {
 
+    public OrderValidator(){}
+
     /**
      * Update the OrderValidationCode and OrderStatus of an order.
      * @param orderToValidate the order to be validated
@@ -39,18 +41,39 @@ public class OrderValidator implements OrderValidation {
 
     /**
      * Validate all the orders in the input array and return a list of valid orders of the day.
-     * @param orders all orders from a certain day
-     * @param restaurants the list of all pizza providers
-     * @return all valid orders in an Arraylist
+     * Populate the ArrayList orderOutlines
+     * @param orders all orders from a day
+     * @param restaurants an array of restaurants retrieved from server
+     * @param orderOutlines an ArrayList of orderOutline records
+     * @return an ArrayList of all valid orders.
      */
-    public ArrayList<Order> filterAllValidOn(Order[] orders, Restaurant[] restaurants){
+    public ArrayList<Order> filterAllValidOn(Order[] orders, Restaurant[] restaurants, ArrayList<OrderOutline> orderOutlines){
         ArrayList<Order> validOrders = new ArrayList<>();
         for (Order order : orders) {
-            if (validateOrder(order, restaurants).getOrderStatus() == OrderStatus.VALID_BUT_NOT_DELIVERED){ //update the status of orders
-                    validOrders.add(order);
+            Order validatedOrder = validateOrder(order, restaurants);//update the status of orders
+            OrderOutline currentOrderOutline = new OrderOutline(validatedOrder.getOrderNo(), validatedOrder.getOrderStatus().name(),
+                    validatedOrder.getOrderValidationCode().name(), validatedOrder.getPriceTotalInPence());
+            orderOutlines.add(currentOrderOutline);
+            if (validatedOrder.getOrderValidationCode() == OrderValidationCode.NO_ERROR){
+                    validOrders.add(validatedOrder);
             }
         }
         return validOrders;
+    }
+
+    /**
+     * Get the restaurant of this order
+     * @param order a valid order to evaluate
+     * @param restaurants all restaurants retrieved from the server
+     * @return the restaurant of this order
+     */
+    public Restaurant getOrderRestaurant(Order order, Restaurant[] restaurants){
+        for(Restaurant restaurant : restaurants){
+            if(Arrays.asList(restaurant.menu()).contains(order.getPizzasInOrder()[0])){
+                return restaurant;
+            }
+        }
+        return null;
     }
 
     /**

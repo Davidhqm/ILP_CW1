@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: uk.ac.ed.inf.WriteToOutFilesTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0 s <<< FAILURE! - in uk.ac.ed.inf.WriteToOutFilesTest
+testOutput(uk.ac.ed.inf.WriteToOutFilesTest)  Time elapsed: 0 s  <<< ERROR!
+java.lang.NoClassDefFoundError: uk/ac/ed/inf/ilp/data/NamedRegion
+	at uk.ac.ed.inf.WriteToOutFilesTest.testOutput(WriteToOutFilesTest.java:23)
+Caused by: java.lang.ClassNotFoundException: uk.ac.ed.inf.ilp.data.NamedRegion
+	at uk.ac.ed.inf.WriteToOutFilesTest.testOutput(WriteToOutFilesTest.java:23)
+
