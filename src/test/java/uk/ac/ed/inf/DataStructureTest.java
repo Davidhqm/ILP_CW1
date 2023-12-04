@@ -4,11 +4,28 @@ import org.junit.Test;
 import uk.ac.ed.inf.ilp.constant.OrderValidationCode;
 import uk.ac.ed.inf.ilp.data.LngLat;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class DataStructureTest {
 
-    @Test
+
+    public static boolean isDateValid(String date){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        df.setLenient(false);
+        try{
+            df.parse(date);
+            return true;
+        }catch (ParseException e){
+            return false;
+        }
+    }
+
+        @Test
     public void test1(){
         PriorityQueue<WeightedLngLat> test = new PriorityQueue<>();
         LngLat sample1 = new LngLat(2.1, 2.1);
@@ -61,9 +78,10 @@ public class DataStructureTest {
     }
 
     @Test
-    public void testEnum(){
-        String codeString = OrderValidationCode.CARD_NUMBER_INVALID.name();
-        System.out.println(codeString);
+    public void testEnum() {
+        String date = "2008-02-29";
+        System.out.println(isDateValid(date));
+
     }
 
 

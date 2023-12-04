@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------
 Test set: uk.ac.ed.inf.DataStructureTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.023 s <<< FAILURE! - in uk.ac.ed.inf.DataStructureTest
+Tests run: 5, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.019 s <<< FAILURE! - in uk.ac.ed.inf.DataStructureTest
 testEnum(uk.ac.ed.inf.DataStructureTest)  Time elapsed: 0.004 s  <<< ERROR!
 java.lang.NoClassDefFoundError: uk/ac/ed/inf/ilp/constant/OrderValidationCode
 	at uk.ac.ed.inf.DataStructureTest.testEnum(DataStructureTest.java:65)
@@ -14,7 +14,7 @@ java.lang.NoClassDefFoundError: uk/ac/ed/inf/ilp/data/LngLat
 Caused by: java.lang.ClassNotFoundException: uk.ac.ed.inf.ilp.data.LngLat
 	at uk.ac.ed.inf.DataStructureTest.test1(DataStructureTest.java:14)
 
-test2(uk.ac.ed.inf.DataStructureTest)  Time elapsed: 0.001 s  <<< ERROR!
+test2(uk.ac.ed.inf.DataStructureTest)  Time elapsed: 0 s  <<< ERROR!
 java.lang.NoClassDefFoundError: uk/ac/ed/inf/ilp/data/LngLat
 	at uk.ac.ed.inf.DataStructureTest.test2(DataStructureTest.java:30)
 Caused by: java.lang.ClassNotFoundException: uk.ac.ed.inf.ilp.data.LngLat

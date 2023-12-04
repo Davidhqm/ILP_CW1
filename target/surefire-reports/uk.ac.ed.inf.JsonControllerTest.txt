@@ -1,7 +1,7 @@
 -------------------------------------------------------------------------------
 Test set: uk.ac.ed.inf.JsonControllerTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.079 s <<< FAILURE! - in uk.ac.ed.inf.JsonControllerTest
+Tests run: 4, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 0.074 s <<< FAILURE! - in uk.ac.ed.inf.JsonControllerTest
 fromJsonAll(uk.ac.ed.inf.JsonControllerTest)  Time elapsed: 0 s  <<< ERROR!
 java.lang.NoClassDefFoundError: uk/ac/ed/inf/ilp/data/NamedRegion
 	at uk.ac.ed.inf.JsonControllerTest.fromJsonAll(JsonControllerTest.java:28)

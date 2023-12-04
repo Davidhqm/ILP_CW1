@@ -25,7 +25,7 @@ public class OrderValidator implements OrderValidation {
     @Override
     public Order validateOrder(Order orderToValidate, Restaurant[] definedRestaurants) {
         orderToValidate.setOrderValidationCode(creditCardInfoChecker(orderToValidate.getCreditCardInformation(),
-                orderToValidate.getOrderValidationCode())); //validate the credit card information
+                orderToValidate.getOrderValidationCode(), orderToValidate.getOrderDate())); //validate the credit card information
 
         orderToValidate.setOrderValidationCode(pizzaChecker(orderToValidate.getPizzasInOrder(), definedRestaurants,
                 orderToValidate.getOrderDate(), orderToValidate.getOrderValidationCode(), orderToValidate.getPriceTotalInPence()));
@@ -82,7 +82,7 @@ public class OrderValidator implements OrderValidation {
      * @param code the original OrderValidationCode
      * @return the corresponding error code related to the card
      */
-    public OrderValidationCode creditCardInfoChecker(CreditCardInformation card, OrderValidationCode code){
+    public OrderValidationCode creditCardInfoChecker(CreditCardInformation card, OrderValidationCode code, LocalDate orderDate){
         if ( !(card.getCreditCardNumber().matches("[0-9]+") && (card.getCreditCardNumber().length() == 16)) ){
             return OrderValidationCode.CARD_NUMBER_INVALID; //check if the card number consists of 16 numbers exclusively
         }
@@ -91,9 +91,9 @@ public class OrderValidator implements OrderValidation {
         }
         int expMonth = Integer.parseInt(card.getCreditCardExpiry().substring(0,2));
         int expYear = 2000+Integer.parseInt(card.getCreditCardExpiry().substring(3));
-        LocalDate localDate = LocalDate.now();
-        int monthNow = localDate.getMonthValue();
-        int yearNow = localDate.getYear();
+
+        int monthNow = orderDate.getMonthValue();
+        int yearNow = orderDate.getYear();
 
         if (expYear < yearNow){
             return OrderValidationCode.EXPIRY_DATE_INVALID; //year smaller

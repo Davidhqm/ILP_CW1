@@ -1,16 +1,13 @@
 package uk.ac.ed.inf;
 
 import org.json.JSONObject;
-import uk.ac.ed.inf.ilp.constant.OrderStatus;
 import uk.ac.ed.inf.ilp.data.*;
-
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Hello world!
@@ -30,19 +27,27 @@ public class App
         if (args.length < 1){
             System.err.println("the base URL must be provided");
             System.exit(1);
+        } else if (args.length < 2) {
+            System.err.println("missing argument");
+            System.exit(2);
         }
 
         String date = args[0];
         String baseUrl = args[1];
+
+        if (!isDateValid(date)){
+            System.err.println("The given date is invalid");
+            System.exit(3);
+        }
+
         if (!baseUrl.endsWith("/")){
             baseUrl += "/";
         }
-
         try {
             URL serverUrl = new URL(baseUrl);
         } catch (Exception x) {
             System.err.println("The URL is invalid: " + x);
-            System.exit(2);
+            System.exit(4);
         }
 
         // initialise and retrieve all relevant information from the server
@@ -70,5 +75,21 @@ public class App
         String droneFileName = "drone-" + date + GEOJSON_SUFFIX;
         IOhandler.writeOutFiles(orderOutlines, droneMovements, featureCollection,
                                 deliveriesFileName, flightpathFileName, droneFileName);
+    }
+
+    /**
+     * Check if a given date is valid
+     * @param date a String representing a certain date
+     * @return whether this date is valid
+     */
+    public static boolean isDateValid(String date){
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        df.setLenient(false);
+        try{
+            df.parse(date);
+            return true;
+        }catch (ParseException e){
+            return false;
+        }
     }
 }

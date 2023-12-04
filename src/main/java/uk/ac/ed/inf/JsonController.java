@@ -142,9 +142,14 @@ public class JsonController {
             directory.mkdir();
         }
 
+        File output = new File(filePath);
+        if(output.exists()){
+            output.delete();
+        }
+
         try (FileWriter fileWriter = new FileWriter(filePath)) {
             // Write the JSON content to the file
-            fileWriter.write(object.toString()); // Use 2-space indentation for better readability
+            fileWriter.write(object.toString());
             System.out.println("GeoJSON written to: " + filePath);
         } catch (IOException e) {
             e.printStackTrace();
@@ -171,6 +176,11 @@ public class JsonController {
                 directory.mkdir();
             }
 
+            File output = new File(filePath);
+            if(output.exists()){
+                output.delete();
+            }
+
             // Write JSON to file
             objectMapper.writeValue(new File(filePath), records);
             System.out.println("Records written to: " + filePath);
@@ -194,6 +204,11 @@ public class JsonController {
             File directory = new File("resultfiles");
             if (!directory.exists()) {
                 directory.mkdir();
+            }
+
+            File output = new File(filePath);
+            if(output.exists()){
+                output.delete();
             }
 
             // Write JSON to file
